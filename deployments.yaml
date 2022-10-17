@@ -1,5 +1,5 @@
 Notes: Jenkins pipeline
-project: bento
+project: gmb
 services:
   backend:
     version: GMB-Develop.101
