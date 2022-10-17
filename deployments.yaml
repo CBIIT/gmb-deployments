@@ -6,6 +6,6 @@ services:
     image: develop-4.7.0-26
     buildNumber: '26'
   frontend:
-    version: develop-3.8.0-16
-    image: develop-3.8.0-16
-    buildNumber: '16'
+    version: develop.78
+    image: develop.78
+    buildNumber: '78'
