@@ -6,6 +6,6 @@ services:
     image: GMB-Develop.101
     buildNumber: '101'
   frontend:
-    version: 1.0.0.80
-    image: 1.0.0.80
-    buildNumber: '80'
+    version: 1.0.0.81
+    image: 1.0.0.81
+    buildNumber: '81'
