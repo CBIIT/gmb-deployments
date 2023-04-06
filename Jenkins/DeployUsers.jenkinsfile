@@ -12,7 +12,7 @@ pipeline {
         string(
 	        defaultValue: '',
 		    description: 'The image tag to deploy',
-		    name: 'Frontend_Tag')
+		    name: 'Users_Tag')
 
 		extendedChoice(
             name: 'Environment',
@@ -30,7 +30,7 @@ pipeline {
 
   environment {
 
-      PROJECT    = 'ctdc'
+      PROJECT    = 'gmb'
 
   }
 
@@ -62,15 +62,14 @@ pipeline {
 
   	stage('Deploy'){
 	    environment {
-            FE_VERSION = "${params.Frontend_Tag}"
-            BE_VERSION = getVersion(service: "backend",deploymentFile: "${PROJECT}-deployments/deployments.yaml")
+            FILES_VERSION = "${params.users_Tag}"
         }
 
  		steps {
 
 			wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
                 ansiblePlaybook(
-					playbook: "${WORKSPACE}/playbooks/ansible/playbooks/gmb-deploy-frontend.yml", 
+					playbook: "${WORKSPACE}/playbooks/ansible/playbooks/gmb-deploy-users.yml", 
             		inventory: "${WORKSPACE}/playbooks/ansible/playbooks/hosts",
                     extraVars: [
                         tier: "${params.Environment}",
@@ -82,7 +81,6 @@ pipeline {
 						],
                     colorized: true)
  			}
-
  		}
 
   	}

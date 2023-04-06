@@ -1,110 +1,109 @@
-import groovy.json.JsonOutput
-
-def sendSlackMessage() {
-  jenkins_image = ":jenkins:"
-  beer_image = ":beer:"
-  long epoch = System.currentTimeMillis()/1000
-  def BUILD_COLORS = ['SUCCESS': 'good', 'FAILURE': 'danger', 'UNSTABLE': 'danger', 'ABORTED': 'danger']
-  
-  def slack = JsonOutput.toJson(
-      [
-            icon_emoji: jenkins_image,
-            attachments: [[
-              title: "Jenkins Job Alert - ${currentBuild.currentResult}",
-              text:  "Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}  ${beer_image}\n Details at: ${env.BUILD_URL}console",
-              fallback: "Bento Jenkins Build",
-              color: "${BUILD_COLORS[currentBuild.currentResult]}",
-              footer: "bento devops",
-              ts: epoch,
-              mrkdwn_in: ["footer", "title"],
-           ]]
-        ]
-    )
-    try {
-        sh "curl -X POST -H 'Content-type: application/json' --data '${slack}'  '${FILES_SLACK_URL}'"
-    } catch (err) {
-        echo "${err} Slack notify failed"
-    }
-}
-
+@Library('datacommons-jenkins-shared-library@v1.1') _
 
 pipeline {
 	agent {
 		node {
-			label 'cicd_microservice'
+			label 'ctdc-docker'
 		}
 	}
-	parameters {
-    extendedChoice( 
-        name: 'Environment', 
-        defaultValue: 'dev', 
-        description: 'Choose the environment to build', 
-        type: 'PT_SINGLE_SELECT',
-        value: 'dev,test,qa,prod')
-    extendedChoice(
-        name: 'ProjectName',
-        defaultValue: 'gmb',
-        description: 'Choose project to build',
-        type: 'PT_SINGLE_SELECT',
-        value: 'gmb,cds,bento' )
 
+	parameters {
+
+        string(
+	        defaultValue: '',
+		    description: 'The image tag to deploy',
+		    name: 'Auth_Tag')
+
+		extendedChoice(
+            name: 'Environment',
+            defaultValue: 'dev',
+            description: 'Choose the environment to build',
+            type: 'PT_SINGLE_SELECT',
+            value: 'dev,qa,stage,prod')
 
   }
+
   options {
   	ansiColor('xterm')
+	timestamps()
   }
-  tools {
-  	maven 'Default' 
-    jdk 'Default' 
+
+  environment {
+
+      PROJECT    = 'gmb'
+
   }
+
   stages{
-  	stage('deploy'){
-	  environment {
-	   FILES_SLACK_URL = "${FILES_SLACK_URL}"
-       TIER = "${params.Environment}"
-	   AUTH_VERSION = "${params.Auth_Tag}"
-      }
-  		steps{
-		  node('cicd_microservice') {
-		    checkout( changelog:false,
-				poll: false,
-				scm: [$class: 'GitSCM', 
-				branches: [[name: '*/master']], 
-				doGenerateSubmoduleConfigurations: false, 
-				extensions: [[$class: 'DisableRemotePoll'],
-				[$class: 'PathRestriction', excludedRegions: '*'], 
-				[$class: 'RelativeTargetDirectory', 
-				relativeTargetDir: 'icdc-devops']], 
-				submoduleCfg: [], 
-				userRemoteConfigs: 
-				[[url: 'https://github.com/CBIIT/icdc-devops.git']]
-				])
-        wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
-          ansiblePlaybook( 
-                playbook: '${WORKSPACE}/icdc-devops/ansible/gmb-deploy-auth.yml',
-                inventory: '${WORKSPACE}/icdc-devops/ansible/hosts', 
-                extraVars: [
-                     tier: "${params.Environment}",
-                     project_name: "${params.ProjectName}",
-                    ],
-          colorized: true)
+  	stage('checkout'){
+  		steps {
+
+  		checkout([$class: 'GitSCM',
+			branches: [[name: '*/main']],
+			doGenerateSubmoduleConfigurations: false,
+			extensions: [[$class: 'RelativeTargetDirectory',
+			relativeTargetDir: "playbooks"]],
+			submoduleCfg: [],
+			userRemoteConfigs:
+			[[url: 'https://github.com/CBIIT/gmb-deployments']]])
+
+        checkout([$class: 'GitSCM',
+			branches: [[name: "${params.Environment}"]],
+			doGenerateSubmoduleConfigurations: false,
+			extensions: [[$class: 'RelativeTargetDirectory',
+			relativeTargetDir: "${env.PROJECT}-deployments"]],
+			submoduleCfg: [],
+			userRemoteConfigs:
+			[[url: 'https://github.com/CBIIT/gmb-deployments']]])
+
         }
-		  }
-  		}
+
+  	}
+
+  	stage('Deploy'){
+	    environment {
+            FILES_VERSION = "${params.users_Tag}"
+        }
+
+ 		steps {
+
+			wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
+                ansiblePlaybook(
+					playbook: "${WORKSPACE}/playbooks/ansible/playbooks/gmb-deploy-auth.yml", 
+            		inventory: "${WORKSPACE}/playbooks/ansible/playbooks/hosts",
+                    extraVars: [
+                        tier: "${params.Environment}",
+						project_name: "${PROJECT}",
+						iam_prefix: "power-user",
+						subdomain: "gmbq",
+						domain_name: "ccr.cancer.gov",
+						auth_enabled: false
+						],
+                    colorized: true)
+ 			}
+ 		}
+
   	}
 
   }
+
   post {
+
     always {
-      
-      sendSlackMessage()
+
+        notify(
+            secretPath: "notification/slack",
+            secretName: "gmb_slack_url"
+        ) 
 
     }
-	
-	cleanup {
-	
-		cleanWs()
-    
-	}
+
+    cleanup {
+
+        cleanWs()
+
+    }
+
   }
+
 }

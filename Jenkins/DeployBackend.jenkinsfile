@@ -1,139 +1,109 @@
-import groovy.json.JsonOutput
-
-def sendSlackMessage() {
-  jenkins_image = ":jenkins:"
-  beer_image = ":beer:"
-  long epoch = System.currentTimeMillis()/1000
-  def BUILD_COLORS = ['SUCCESS': 'good', 'FAILURE': 'danger', 'UNSTABLE': 'danger', 'ABORTED': 'danger']
-  
-  def slack = JsonOutput.toJson(
-      [
-            icon_emoji: jenkins_image,
-            attachments: [[
-              title: "Jenkins Job Alert - ${currentBuild.currentResult}",
-              text:  "Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}  ${beer_image}\n Details at: ${env.BUILD_URL}console",
-              fallback: "Bento Jenkins Build",
-              color: "${BUILD_COLORS[currentBuild.currentResult]}",
-              footer: "bento devops",
-              ts: epoch,
-              mrkdwn_in: ["footer", "title"],
-           ]]
-        ]
-    )
-    try {
-        sh "curl -X POST -H 'Content-type: application/json' --data '${slack}'  '${SLACK_URL}'"
-    } catch (err) {
-        echo "${err} Slack notify failed"
-    }
-}
-
+@Library('datacommons-jenkins-shared-library@v1.1') _
 
 pipeline {
 	agent {
 		node {
-			label 'cicd_microservice'
+			label 'ctdc-docker'
 		}
 	}
+
 	parameters {
-	extendedChoice(
-        name: 'Project',
-        defaultValue: 'gmb',
-        description: 'Choose the project to build',
-        type: 'PT_SINGLE_SELECT',
-        value: 'cds,bento,gmb,icdc')
-    extendedChoice( 
-        name: 'Environment', 
-        defaultValue: 'dev', 
-        description: 'Choose the environment to build', 
-        type: 'PT_SINGLE_SELECT',
-        value: 'dev,qa,stage,prod' )
-	booleanParam(
-		defaultValue: true,
-		description: 'Enable the Elasticsearch filter',
-		name: 'Enable_ES_Filter')
+
+        string(
+	        defaultValue: '',
+		    description: 'The image tag to deploy',
+		    name: 'Backend_Tag')
+
+		extendedChoice(
+            name: 'Environment',
+            defaultValue: 'dev',
+            description: 'Choose the environment to build',
+            type: 'PT_SINGLE_SELECT',
+            value: 'dev,qa,stage,prod')
 
   }
+
   options {
   	ansiColor('xterm')
+	timestamps()
   }
-  tools {
-  	maven 'Default' 
-    jdk 'Default' 
+
+  environment {
+
+      PROJECT    = 'gmb'
+
   }
+
   stages{
-  	stage('deploy'){
-	  environment {
-	   SLACK_URL = "${SLACK_URL}"
-       TIER = "${params.Environment}"
-       BE_VERSION = "${params.Backend_Image}"
-	   SLACK_CHANNEL = "#system-alerts"
-	   URL_DOMAIN = "bento-tools.org"
-      }
-  		steps{
-		  node('cicd_microservice') {
-		    checkout( changelog:false,
-				poll: false,
-				scm: [$class: 'GitSCM', 
-				branches: [[name: '*/master']], 
-				doGenerateSubmoduleConfigurations: false, 
-				extensions: [[$class: 'DisableRemotePoll'],
-				[$class: 'PathRestriction', excludedRegions: '*'], 
-				[$class: 'RelativeTargetDirectory', 
-				relativeTargetDir: 'icdc-devops']], 
-				submoduleCfg: [], 
-				userRemoteConfigs: 
-				[[url: 'https://github.com/CBIIT/icdc-devops.git']]
-				])
-  			
+  	stage('checkout'){
+  		steps {
+
+  		checkout([$class: 'GitSCM',
+			branches: [[name: '*/main']],
+			doGenerateSubmoduleConfigurations: false,
+			extensions: [[$class: 'RelativeTargetDirectory',
+			relativeTargetDir: "playbooks"]],
+			submoduleCfg: [],
+			userRemoteConfigs:
+			[[url: 'https://github.com/CBIIT/gmb-deployments']]])
+
+        checkout([$class: 'GitSCM',
+			branches: [[name: "${params.Environment}"]],
+			doGenerateSubmoduleConfigurations: false,
+			extensions: [[$class: 'RelativeTargetDirectory',
+			relativeTargetDir: "${env.PROJECT}-deployments"]],
+			submoduleCfg: [],
+			userRemoteConfigs:
+			[[url: 'https://github.com/CBIIT/gmb-deployments']]])
+
+        }
+
+  	}
+
+  	stage('Deploy'){
+	    environment {
+            BE_VERSION = "${params.Backend_Tag}"
+        }
+
+ 		steps {
+
 			wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
-  				ansiblePlaybook( 
-            		playbook: '${WORKSPACE}/icdc-devops/ansible/gmb-deploy-backend.yml',
-            		inventory: '${WORKSPACE}/icdc-devops/ansible/hosts', 
-            		extraVars: [
-                    project_name: "${params.Project}",
-					enable_es_filter: "${params.Enable_ES_Filter}"
-                    ],
-					colorized: true)
+                ansiblePlaybook(
+					playbook: "${WORKSPACE}/playbooks/ansible/playbooks/gmb-deploy-backend.yml", 
+            		inventory: "${WORKSPACE}/playbooks/ansible/playbooks/hosts",
+                    extraVars: [
+                        tier: "${params.Environment}",
+						project_name: "${PROJECT}",
+						iam_prefix: "power-user",
+						subdomain: "gmbq",
+						domain_name: "ccr.cancer.gov",
+						auth_enabled: false
+						],
+                    colorized: true)
  			}
-		  }
  		}
+
   	}
 
   }
+
   post {
+
     always {
-      
-      sendSlackMessage()
+
+        notify(
+            secretPath: "notification/slack",
+            secretName: "gmb_slack_url"
+        ) 
 
     }
 
-	success {
+    cleanup {
 
-		script {
-		    if (env.Tier == 'prod') {
-			    withCredentials([string(credentialsId: 'git_credential', variable: 'git_token')]) {
-				    sh label: 'GIT-Set Releases', script: '''#!/bin/bash
+        cleanWs()
 
-					data={\\"tag_name\\":\\"${Frontend_Image}\\"}
-					curl_cmd='curl -i -u michael-fleming:'${git_token}' POST -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/CBIIT/bento-frontend/releases -d {"tag_name":"${Frontend_Image}"}'
-					$curl_cmd
-					
-					bento_tag=$(echo "${Backend_Image}" | sed 's/-/-bento-/g')
-					data={\\"tag_name\\":\\"$bento_tag\\"}
-					curl_cmd='curl -i -u michael-fleming:'${git_token}' POST -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/CBIIT/bento-backend/releases -d '$data''
-					$curl_cmd
+    }
 
-				    '''
-
-				    }
-			    }
-			}
-
-	}
-
-	cleanup {
-		cleanWs()
-    
-	}
   }
+
 }

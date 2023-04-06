@@ -1,0 +1,26 @@
+@Library('datacommons-jenkins-shared-library') _
+buildAndDeploy(
+    label: "cicd_microservice",
+    parameterName: "UsersTag",
+    codeRepoUrl: "https://github.com/CBIIT/bento-users",
+    checkoutDirectory: "popsci-users",
+    playbookRepoUrl: "https://github.com/CBIIT/gmb-deployments",
+    playbookRepoBranch: "main",
+    buildPlaybook: "ansible/playbooks/build-users-microservice.yml",
+    deployPlaybook: "ansible/playbooks/deploy-users-microservice.yml",
+    inventory: "ansible/playbooks/hosts",
+    tier: "${params.Environment}",
+    projectName: "gmb",
+    slackSecretPath: "notification/slack",
+    slackSecretName: "bento_slack_url",
+    appVersionName: "USERS_VERSION",
+    deploymentRepoUrl: "https://github.com/CBIIT/gmb-deployments",
+    deploymentCheckoutDirectory: "gmb-deployments",
+    deploymentFile: "gmb-deployments/deployments.yaml",
+    extraAnsibleVars: [
+        subdomain: "gmbq",
+        domain_name: "ccr.cancer.gov",
+		checkout_directory: ""
+    ],
+    service: "users"
+)
