@@ -1,13 +1,36 @@
-- name: cds backend pipeline
-  hosts: bento
+- name: build frontend microservice
+  hosts: all
   connection: local
-  gather_facts: no
-  become: yes
+  gather_facts: yes
+#  become: yes
 
   tasks:
-    - name: build stage for gmb backend
+    #install collections
+    - name: install collections
+      command: ansible-galaxy collection install {{item}}
+      loop:
+        -  community.docker
+        -  git+https://github.com/CBIIT/datacommons-devops.git#/ansible/collections/bento/common/,v1.0
+
+    #docker login
+    - name: docker login
       include_role:
-        name: bento-cds
-        tasks_from: build-frontend
+        name: bento.common.ecr_login
+      vars:
+        region: us-east-1
+
+    #frontend build
+    - name: build frontend
+      include_role:
+        name: bento.common.build_frontend
       vars:
         ansible_python_interpreter: /usr/bin/python3
+        workspace: "{{ lookup('env','WORKSPACE') }}"
+        build_number: "{{ lookup('env','BUILD_NUMBER')}}"
+        project_name: "{{ project_name }}"
+        image_version: "{{ lookup('env','FE_VERSION') }}"
+        container_name: "frontend"
+        #container_build_path: "{{ workspace }}/{{ project_name }}-frontend"
+        container_build_path: "{{ workspace }}/bento-popsci-frontend"
+        dockerfile_path: "{{ workspace }}/playbooks/docker/dockerfiles/frontend-microservice-dockerfile"
+        container_registry_url: "{{ ecr_repo }}"
