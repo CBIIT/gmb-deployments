@@ -3,7 +3,7 @@
 pipeline {
 	agent {
 		node {
-			label 'cicd_microservice'
+			label 'slave-ncias-q2944-c'
 		}
 	}
 

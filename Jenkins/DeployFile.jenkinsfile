@@ -3,7 +3,7 @@
 pipeline {
 	agent {
 		node {
-			label 'gmb-docker'
+			label 'slave-ncias-q2944-c'
 		}
 	}
 
