@@ -1,8 +1,8 @@
-- name: files microservice pipeline
+- name: build files microservice
   hosts: all
   connection: local
   gather_facts: no
-  become: yes
+  #become: yes
 
   tasks:
     - name: install aws collection
