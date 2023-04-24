@@ -104,7 +104,7 @@ variable "ecr_repo_names" {
 }
 variable "create_ecr_repos" {
   type = bool
-  default = false
+  default = true
   description = "choose whether to create ecr repos or not"
 }
 variable "create_opensearch_cluster" {
