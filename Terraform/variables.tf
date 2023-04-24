@@ -2,10 +2,6 @@ variable "stack_name" {
   description = "name of the project"
   type = string
 }
-variable "project" {
-  description = "name of the project"
-  type = string
-}
 
 variable "tags" {
   description = "tags to associate with this instance"
