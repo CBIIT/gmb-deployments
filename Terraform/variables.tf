@@ -212,7 +212,7 @@ variable "create_cloudwatch_log_policy" {
 variable "create_env_specific_repo" {
   description = "choose to create environment specific repo. Example bento-dev-frontend"
   type = bool
-  default = true
+  default = false
 }
 variable "database_instance_type" {
   description = "ec2 instance type to use"
