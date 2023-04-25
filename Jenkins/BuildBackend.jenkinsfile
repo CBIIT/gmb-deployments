@@ -24,7 +24,7 @@ pipeline {
             selectedValue: 'DEFAULT',
             sortMode: 'ASCENDING_SMART',
             tagFilter: '*',
-            useRepository: 'https://github.com/CBIIT/bento-backend')
+            useRepository: 'https://github.com/CBIIT/gmb-backend')
 
         booleanParam(
             defaultValue: true,
@@ -43,7 +43,7 @@ pipeline {
 
   environment {
 
-      PROJECT    = 'ctdc'
+      PROJECT    = 'gmb'
       BE_VERSION = "${params.BackendBranch}"
 	  JOB_PATH   = '_default/_lower/GMB/_jobs'
 
@@ -60,7 +60,7 @@ pipeline {
 			relativeTargetDir: "${env.PROJECT}-backend"]],
 			submoduleCfg: [],
 			userRemoteConfigs:
-			[[url: 'https://github.com/CBIIT/bento-backend']]])
+			[[url: 'https://github.com/CBIIT/gmb-backend']]])
 
   		checkout([$class: 'GitSCM',
 			branches: [[name: '*/main']],
@@ -152,7 +152,7 @@ pipeline {
 
                 tagRepo ( 
                     gitTag: "gmb-${params.BackendBranch}",
-                    gitUrl: "github.com/CBIIT/bento-backend",
+                    gitUrl: "github.com/CBIIT/gmb-backend",
                     checkoutDirectory: "${env.PROJECT}-backend"
                 )
 
