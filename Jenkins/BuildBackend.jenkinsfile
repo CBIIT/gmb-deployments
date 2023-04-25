@@ -114,7 +114,7 @@ pipeline {
                     extraVars: [
 						tier: "${params.Environment}",
 						project_name: "${PROJECT}",
-                        test_queries_file: "${params.Test_Queries_File}"
+                        test_queries_file: "${params.Test_Queries_File}",
 						auth_enabled: true
 						],
                    colorized: true)
