@@ -115,7 +115,7 @@ pipeline {
 						tier: "${params.Environment}",
 						project_name: "${PROJECT}",
                         test_queries_file: "${params.Test_Queries_File}"
-						auth_enabled: false
+						auth_enabled: true
 						],
                    colorized: true)
  			}
