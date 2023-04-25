@@ -17,7 +17,7 @@ pipeline {
             value: 'dev,qa,stage,prod')
 
         gitParameter(branchFilter: 'origin/(.*)',
-            defaultValue: 'master',
+            defaultValue: 'main',
             name: 'BackendBranch',
             type: 'GitParameterDefinition',
             quickFilterEnabled: true,
@@ -96,7 +96,7 @@ pipeline {
 			branches: [[name: "${env.FE_VERSION}"]],
 			doGenerateSubmoduleConfigurations: false,
 			extensions: [[$class: 'RelativeTargetDirectory',
-			relativeTargetDir: "${env.PROJECT}-frontend"]],
+			relativeTargetDir: "$bento-{env.PROJECT}-frontend"]],
 			submoduleCfg: [],
 			userRemoteConfigs:
 			[[url: 'https://github.com/CBIIT/bento-gmb-frontend']]])

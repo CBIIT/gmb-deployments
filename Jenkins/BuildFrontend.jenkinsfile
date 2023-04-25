@@ -93,7 +93,7 @@ pipeline {
             		inventory: "${WORKSPACE}/playbooks/ansible/playbooks/hosts",
                     extraVars: [
 						project_name: "${PROJECT}",
-						auth_enabled: false
+						auth_enabled: true
 						],
                    colorized: true)
  			}
@@ -131,7 +131,7 @@ pipeline {
                 tagRepo ( 
                     gitTag: "${params.FrontendBranch}",
                     gitUrl: "github.com/CBIIT/bento-gmb-frontend",
-                    checkoutDirectory: "${env.PROJECT}-frontend"
+                    checkoutDirectory: "$bento-{env.PROJECT}-frontend"
                 )
 
             }
