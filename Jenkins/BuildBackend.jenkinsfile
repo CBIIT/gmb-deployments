@@ -96,7 +96,7 @@ pipeline {
 			branches: [[name: "${env.FE_VERSION}"]],
 			doGenerateSubmoduleConfigurations: false,
 			extensions: [[$class: 'RelativeTargetDirectory',
-			relativeTargetDir: "$bento-{env.PROJECT}-frontend"]],
+			relativeTargetDir: "${env.PROJECT}-frontend"]],
 			submoduleCfg: [],
 			userRemoteConfigs:
 			[[url: 'https://github.com/CBIIT/bento-gmb-frontend']]])
