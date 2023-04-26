@@ -10,7 +10,7 @@
       loop:
         - community.docker
         #- git+https://github.com/CBIIT/datacommons-devops.git#/ansible/collections/bento/common/,main
-        - git+https://github.com/CBIIT/datacommons-devops.git#/ansible/collections/bento/common/,v1.0
+        - git+https://github.com/CBIIT/datacommons-devops.git#/ansible/collections/bento/common/,gmb
 
     #docker login
     - name: docker login
