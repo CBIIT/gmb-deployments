@@ -43,7 +43,7 @@ pipeline {
 
   environment {
 
-      PROJECT    = 'gmb'
+      PROJECT    = 'bento'
       BE_VERSION = "${params.BackendBranch}"
 	  JOB_PATH   = '_default/_lower/GMB/_jobs'
 
