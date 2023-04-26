@@ -22,16 +22,6 @@
         name: bento.common.ecr_login
       vars:
         region: us-east-1
-        
-    - name: checkout any submodules
-      shell: git submodule update --init --recursive
-      args:
-        chdir: "{{workspace}}/{{checkout_directory}}"
-      register: output
-      when:
-        - project_name: "gmb"
-    - debug:
-        msg: "{{output.stdout_lines}}"
     #build backend
     - name: build {{project_name}} auth microservice
       include_role:
