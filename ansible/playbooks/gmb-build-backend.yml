@@ -46,4 +46,4 @@
         dockerfile_path: "{{workspace}}/playbooks/docker/dockerfiles/backend-microservice-dockerfile"
         container_image: "{{ ecr_repo }}/{{ project_name }}-{{ container_name }}:{{ image_version }}s"
         container_registry_url: "{{ ecr_repo }}"
-        auth_enabled: "true"
+        auth_enabled: "false"
