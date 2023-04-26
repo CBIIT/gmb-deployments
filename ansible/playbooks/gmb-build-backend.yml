@@ -13,7 +13,7 @@
         - community.docker
         - amazon.aws
         - community.aws:<=3.2.0
-        - git+https://github.com/CBIIT/datacommons-devops.git#/ansible/collections/bento/common/,gmb
+        - git+https://github.com/CBIIT/datacommons-devops.git#/ansible/collections/bento/common/,ctdc
 
     #docker login
     - name: docker login
