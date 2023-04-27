@@ -57,7 +57,7 @@ pipeline {
 			branches: [[name: "${params.FrontendBranch}"]],
 			doGenerateSubmoduleConfigurations: false,
 			extensions: [[$class: 'RelativeTargetDirectory',
-			relativeTargetDir: "$bento-{env.PROJECT}-frontend"]],
+			relativeTargetDir: "${env.PROJECT}-frontend"]],
 			submoduleCfg: [],
 			userRemoteConfigs:
 			[[url: 'https://github.com/CBIIT/bento-gmb-frontend']]])
@@ -131,7 +131,7 @@ pipeline {
                 tagRepo ( 
                     gitTag: "${params.FrontendBranch}",
                     gitUrl: "github.com/CBIIT/bento-gmb-frontend",
-                    checkoutDirectory: "$bento-{env.PROJECT}-frontend"
+                    checkoutDirectory: "${env.PROJECT}-frontend"
                 )
 
             }
