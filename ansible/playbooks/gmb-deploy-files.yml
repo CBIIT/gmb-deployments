@@ -30,6 +30,7 @@
         region: "us-east-1"
         container_name: "files"
         tier: "{{ tier }}"
+        service_name: "{{ project_name }}-{{ tier }}-files"
         ## versions
         image_version: "{{ lookup('env','FILES_VERSION') }}"
         ## cloudfront
