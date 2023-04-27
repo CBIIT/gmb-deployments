@@ -44,7 +44,7 @@ pipeline {
   environment {
 
       PROJECT    = 'gmb'
-      FILES_VERSION = "${params.FilesBranch}"
+      AUTH_VERSION = "${params.AuthBranch}"
 	  JOB_PATH   = '_default/_lower/GMB/_jobs'
 
   }
@@ -108,9 +108,9 @@ pipeline {
 			script {
                 if (params.UpdateDeploymentVersion) {
                     writeDeployment(
-                        version: "${env.FILES_VERSION}.${BUILD_NUMBER}",
-                        image:  "${env.FILES_VERSION}.${BUILD_NUMBER}",
-                        service: "files",
+                        version: "${env.AUTH_VERSION}.${BUILD_NUMBER}",
+                        image:  "${env.AUTH_VERSION}.${BUILD_NUMBER}",
+                        service: "auth",
                         deploymentFile: "${PROJECT}-deployments/deployments.yaml",
                         deploymentRepoUrl: "https://github.com/CBIIT/${PROJECT}-deployments",
                         deploymentCheckoutDirectory: "${PROJECT}-deployments"
@@ -129,7 +129,7 @@ pipeline {
 			script {
 
                 tagRepo ( 
-                    gitTag: "${params.FilesBranch}",
+                    gitTag: "${params.AuthBranch}",
                     gitUrl: "github.com/CBIIT/bento-auth",
                     checkoutDirectory: "${env.PROJECT}-auth"
                 )
@@ -149,7 +149,7 @@ pipeline {
 		script {
 			if (params.RunDeployStage) {
 				echo 'Run the deployment for this sevice'
-				build job: "$JOB_PATH/DeployFiles", parameters: [string(name: 'Files_Tag', value: "${params.FilesBranch}.$BUILD_NUMBER"), extendedChoice(name: 'Environment', value: "${params.Environment}")]
+				build job: "$JOB_PATH/DeployAuth", parameters: [string(name: 'Auth_Tag', value: "${params.AuthBranch}.$BUILD_NUMBER"), extendedChoice(name: 'Environment', value: "${params.Environment}")]
 			}
 		}
     }
