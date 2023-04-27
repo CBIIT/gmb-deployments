@@ -44,7 +44,7 @@ pipeline {
   environment {
 
       PROJECT    = 'gmb'
-      FILES_VERSION = "${params.FilesBranch}"
+      USERS_VERSION = "${params.UsersBranch}"
 	  JOB_PATH   = '_default/_lower/GMB/_jobs'
 
   }
@@ -54,7 +54,7 @@ pipeline {
   		steps {
 
 		checkout([$class: 'GitSCM',
-			branches: [[name: "${params.FilesBranch}"]],
+			branches: [[name: "${params.UsersBranch}"]],
 			doGenerateSubmoduleConfigurations: false,
 			extensions: [[$class: 'RelativeTargetDirectory',
 			relativeTargetDir: "${env.PROJECT}-users"]],
