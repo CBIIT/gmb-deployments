@@ -57,7 +57,7 @@ pipeline {
 			branches: [[name: "${params.FrontendBranch}"]],
 			doGenerateSubmoduleConfigurations: false,
 			extensions: [[$class: 'RelativeTargetDirectory',
-			relativeTargetDir: "${env.PROJECT}-frontend"]],
+			relativeTargetDir: "$bento-{env.PROJECT}-frontend"]],
 			submoduleCfg: [],
 			userRemoteConfigs:
 			[[url: 'https://github.com/CBIIT/bento-gmb-frontend']]])
@@ -158,7 +158,7 @@ pipeline {
 
         notify(
             secretPath: "notification/slack",
-            secretName: "ctdc_slack_url"
+            secretName: "gmb_slack_url"
         ) 
 
     }
