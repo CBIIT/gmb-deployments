@@ -17,7 +17,7 @@ pipeline {
             value: 'dev,qa,stage,prod')
 
         gitParameter(branchFilter: 'origin/(.*)',
-            defaultValue: 'main',
+            defaultValue: 'master',
             name: 'UsersBranch',
             type: 'GitParameterDefinition',
             quickFilterEnabled: true,
@@ -108,9 +108,9 @@ pipeline {
 			script {
                 if (params.UpdateDeploymentVersion) {
                     writeDeployment(
-                        version: "${env.FILES_VERSION}.${BUILD_NUMBER}",
-                        image:  "${env.FILES_VERSION}.${BUILD_NUMBER}",
-                        service: "files",
+                        version: "${env.USERS_VERSION}.${BUILD_NUMBER}",
+                        image:  "${env.USERS_VERSION}.${BUILD_NUMBER}",
+                        service: "users",
                         deploymentFile: "${PROJECT}-deployments/deployments.yaml",
                         deploymentRepoUrl: "https://github.com/CBIIT/${PROJECT}-deployments",
                         deploymentCheckoutDirectory: "${PROJECT}-deployments"
@@ -149,7 +149,7 @@ pipeline {
 		script {
 			if (params.RunDeployStage) {
 				echo 'Run the deployment for this sevice'
-				build job: "$JOB_PATH/DeployFiles", parameters: [string(name: 'Files_Tag', value: "${params.FilesBranch}.$BUILD_NUMBER"), extendedChoice(name: 'Environment', value: "${params.Environment}")]
+				build job: "$JOB_PATH/DeployUsers", parameters: [string(name: 'Users_Tag', value: "${params.UsersBranch}.$BUILD_NUMBER"), extendedChoice(name: 'Environment', value: "${params.Environment}")]
 			}
 		}
     }
