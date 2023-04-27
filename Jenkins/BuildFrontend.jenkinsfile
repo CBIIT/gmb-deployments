@@ -45,7 +45,7 @@ pipeline {
 
       PROJECT    = 'gmb'
       FE_VERSION = "${params.FrontendBranch}"
-	  JOB_PATH   = '_default/_lower/GMB/_jobs'
+	  JOB_PATH   = '_default/_lower/GMB/OneClickDeployment/_jobs'
 
   }
 
