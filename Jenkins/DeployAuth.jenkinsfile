@@ -77,7 +77,7 @@ pipeline {
 						iam_prefix: "power-user",
 						subdomain: "gmbp",
 						domain_name: "ccr.cancer.gov",
-						auth_enabled: true
+						auth_enabled: false
 						],
                     colorized: true)
  			}
