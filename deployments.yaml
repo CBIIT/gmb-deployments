@@ -18,6 +18,6 @@ services:
     image: 1.4.0.63
     buildNumber: '63'
   users:
-    version: 1.3.0.30
-    image: 1.3.0.30
-    buildNumber: '30'
+    version: 1.3.0.31
+    image: 1.3.0.31
+    buildNumber: '31'
