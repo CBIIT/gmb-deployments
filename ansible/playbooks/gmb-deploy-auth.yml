@@ -50,6 +50,7 @@
         platform: aws
         container_name: "auth"
         image_version: "{{ auth_version }}"
+        service_name: "{{ project_name }}-{{ tier }}-auth"
         tier: "{{ tier }}"
         ecs_cluster_name: "{{ project_name }}-{{ tier }}-ecs"
         neo4j_user: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.neo4j_user', nested=true, region='us-east-1' ) }}"

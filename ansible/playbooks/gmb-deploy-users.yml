@@ -43,6 +43,7 @@
         project_name: "{{project_name}}"
         platform: aws
         container_name: "users"
+        service_name: "{{ project_name }}-{{ tier }}-users"
         image_version: "{{users_version }}"
         tier: "{{ tier }}"
         ecs_cluster_name: "{{ project_name }}-{{ tier }}-ecs"
