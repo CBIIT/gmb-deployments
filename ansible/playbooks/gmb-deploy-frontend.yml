@@ -31,6 +31,7 @@
       vars:
         ansible_python_interpreter: /usr/bin/python3
         project_name: "{{project_name}}"
+        service_name: "{{ project_name }}-{{ tier }}-frontend"
         region: us-east-1
         container_name: "frontend"
         frontend_version: "{{ lookup('env','FE_VERSION') }}"
