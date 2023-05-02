@@ -45,7 +45,7 @@ pipeline {
 
       PROJECT    = 'gmb'
       AUTH_VERSION = "${params.AuthBranch}"
-	  JOB_PATH   = '_default/_lower/GMB/_jobs'
+	  JOB_PATH   = '_default/_lower/GMB/OneClickDeployment/_jobs'
 
   }
 
