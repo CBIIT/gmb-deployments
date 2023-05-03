@@ -10,9 +10,9 @@ services:
     image: 1.0.0.81
     buildNumber: '81'
   auth:
-    version: master.105
-    image: master.105
-    buildNumber: '105'
+    version: master.106
+    image: master.106
+    buildNumber: '106'
   files:
     version: 1.4.0.63
     image: 1.4.0.63
