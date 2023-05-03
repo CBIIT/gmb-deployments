@@ -2,9 +2,9 @@ Notes: Jenkins pipeline
 project: gmb
 services:
   backend:
-    version: develop.127
-    image: develop.127
-    buildNumber: '127'
+    version: develop.128
+    image: develop.128
+    buildNumber: '128'
   frontend:
     version: 1.0.0.81
     image: 1.0.0.81
