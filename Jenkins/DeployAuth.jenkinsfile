@@ -62,7 +62,7 @@ pipeline {
 
   	stage('Deploy'){
 	    environment {
-            FILES_VERSION = "${params.users_Tag}"
+            AUTH_VERSION = "${params.Auth_Tag}"
         }
 
  		steps {
