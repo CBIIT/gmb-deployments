@@ -19,18 +19,13 @@
       vars:
         region: us-east-1
 
-    #debug
-    - name: verify node config
-      command: /bin/bash -l -c "echo $NODE_OPTIONS"
-      register: cmd_output
-    - name: show output
-      debug:
-        msg: "{{cmd_output}}"
-    
     #frontend build
     - name: build frontend
       include_role:
         name: bento.common.build_frontend
+        apply:
+          environment:
+            NODE_OPTIONS: '--max-old-space-size=4096'
       vars:
         ansible_python_interpreter: /usr/bin/python3
         workspace: "{{ lookup('env','WORKSPACE') }}"
