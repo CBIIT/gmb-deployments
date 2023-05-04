@@ -62,7 +62,9 @@ pipeline {
 			userRemoteConfigs:
 			[[url: 'https://github.com/CBIIT/bento-files']]])
 
-  		checkout([$class: 'GitSCM',
+  		sh "cd ${env.PROJECT}-files && git submodule update --init --recursive"
+		
+		checkout([$class: 'GitSCM',
 			branches: [[name: '*/main']],
 			doGenerateSubmoduleConfigurations: false,
 			extensions: [[$class: 'RelativeTargetDirectory',
