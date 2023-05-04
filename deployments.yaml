@@ -10,9 +10,9 @@ services:
     image: bento-3.10-branch-update.99
     buildNumber: '99'
   auth:
-    version: 2.2.0.107
-    image: 2.2.0.107
-    buildNumber: '107'
+    version: 2.2.0.108
+    image: 2.2.0.108
+    buildNumber: '108'
   files:
     version: main.65
     image: main.65
