@@ -62,7 +62,7 @@ pipeline {
 
   	stage('Deploy'){
 	    environment {
-            USERS_VERSION = "${params.users_Tag}"
+            USERS_VERSION = "${params.Users_Tag}"
         }
 
  		steps {
