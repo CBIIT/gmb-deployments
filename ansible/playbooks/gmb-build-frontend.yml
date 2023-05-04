@@ -19,6 +19,14 @@
       vars:
         region: us-east-1
 
+    #debug
+    - name: verify node config
+      command: echo $NODE_OPTIONS
+      register: cmd_output
+    - name: show output
+      debug:
+        msg: "{{cmd_output}}"
+    
     #frontend build
     - name: build frontend
       include_role:
