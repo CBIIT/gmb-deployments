@@ -6,9 +6,9 @@ services:
     image: develop.128
     buildNumber: '128'
   frontend:
-    version: 1.0.0.81
-    image: 1.0.0.81
-    buildNumber: '81'
+    version: bento-3.10-branch-update.99
+    image: bento-3.10-branch-update.99
+    buildNumber: '99'
   auth:
     version: master.106
     image: master.106
