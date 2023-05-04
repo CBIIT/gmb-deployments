@@ -62,7 +62,7 @@ pipeline {
 
   	stage('Deploy'){
 	    environment {
-            FILES_VERSION = "${params.users_Tag}"
+            USERS_VERSION = "${params.users_Tag}"
         }
 
  		steps {
@@ -77,7 +77,7 @@ pipeline {
 						iam_prefix: "power-user",
 						subdomain: "gmbp",
 						domain_name: "ccr.cancer.gov",
-						auth_enabled: false
+						auth_enabled: true
 						],
                     colorized: true)
  			}
