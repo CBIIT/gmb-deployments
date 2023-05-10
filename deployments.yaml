@@ -6,9 +6,9 @@ services:
     image: develop.134
     buildNumber: '134'
   frontend:
-    version: bento-3.10-branch-update.99
-    image: bento-3.10-branch-update.99
-    buildNumber: '99'
+    version: bento-3.10-gmb-resolving.100
+    image: bento-3.10-gmb-resolving.100
+    buildNumber: '100'
   auth:
     version: 2.2.0.108
     image: 2.2.0.108
