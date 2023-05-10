@@ -1,0 +1,94 @@
+@Library('datacommons-jenkins-shared-library@v1.1') _
+
+pipeline {
+	agent {
+		node {
+			label 'slave-ncias-q2944-c'
+		}
+	}
+
+	parameters {
+
+		extendedChoice(
+            name: 'Environment',
+            defaultValue: 'dev',
+            description: 'Choose the environment to build',
+            type: 'PT_SINGLE_SELECT',
+            value: 'dev,qa')
+
+  }
+
+  options {
+
+	timestamps()
+
+  }
+
+  environment {
+
+      PROJECT    = 'gmb'
+	  JOB_PATH   = '_default/_lower/GMB/OneClickDeployment/_jobs'
+
+  }
+
+  stages{
+  	stage('checkout'){
+  		steps {
+
+        checkout([$class: 'GitSCM',
+			branches: [[name: "${params.Environment}"]],
+			doGenerateSubmoduleConfigurations: false,
+			extensions: [[$class: 'RelativeTargetDirectory',
+			relativeTargetDir: "${env.PROJECT}-deployments"]],
+			submoduleCfg: [],
+			userRemoteConfigs:
+			[[url: 'https://github.com/CBIIT/gmb-deployments']]])
+
+        }
+
+  	}
+
+  	stage('Deploy'){
+
+ 		steps {
+
+            script {
+
+                def deployment = readYaml file: "${WORKSPACE}/${PROJECT}-deployments/deployments.yaml"
+                deployment.services.each {
+                    buildJob(
+                        jobName: "${JOB_PATH}/Deploy" + "${it.key}".capitalize(),
+                        parameters:[
+                                string(name: 'Environment', value: params["Environment"]),
+                                string(name: "${it.key}".capitalize() + "_Tag" , value: it.value.image)
+                        ]
+                    )
+                }
+		    }
+
+ 		}
+
+  	}
+
+  }
+
+  post {
+
+    always {
+
+        notify(
+            secretPath: "notification/slack",
+            secretName: "gmb_slack_url"
+        ) 
+
+    }
+
+    cleanup {
+
+        cleanWs()
+
+    }
+
+  }
+
+}
