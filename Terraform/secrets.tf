@@ -11,8 +11,8 @@ locals {
         sumo_collector_token_files    = module.monitoring.sumo_source_urls.files[0]
         sumo_collector_token_auth     = module.monitoring.sumo_source_urls.auth[0]
         sumo_collector_token_user     = module.monitoring.sumo_source_urls.users[0]
-        #mysql_host                    = module.aurora.cluster_endpoint
-        #mysql_password                = nonsensitive(module.aurora.db_password)
+        mysql_host                    = module.aurora.cluster_endpoint
+        mysql_password                = nonsensitive(module.aurora.db_password)
       }
     }
   }
@@ -37,5 +37,6 @@ module "deepmerge" {
 module "secrets" {
   source                        = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/secrets?ref=v1.0"
   app                           = var.stack_name
-  secret_values                 = module.deepmerge.merged
+  #secret_values                 = module.deepmerge.merged
+   secret_values                 = var.secret_values
 }
