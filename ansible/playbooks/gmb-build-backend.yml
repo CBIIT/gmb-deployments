@@ -8,7 +8,7 @@
     - debug: var=ansible_python_version
     #install collections
     - name: install aws collection
-      shell: "ansible-galaxy collection install {{ item | quote }} --force"
+      command: ansible-galaxy collection install {{item}}
       loop:
         - community.docker
         - amazon.aws
