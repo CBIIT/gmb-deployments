@@ -74,8 +74,8 @@ pipeline {
   				[[url: 'https://github.com/CBIIT/icdc-dataloader']]])
 
           sh 'git submodule update --init'
-  			dir('icdc-devops'){
-  				git branch: 'master',
+  			dir('gmb-deployments'){
+  				git branch: 'main',
     				url: 'https://github.com/CBIIT/gmb-deployments.git'
   			}
             dir('gmb-model'){
