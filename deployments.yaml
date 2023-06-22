@@ -6,9 +6,9 @@ services:
     image: develop.147
     buildNumber: '147'
   frontend:
-    version: bento-release-4.0.0-feature_GMB-180_Subjects-Page.105
-    image: bento-release-4.0.0-feature_GMB-180_Subjects-Page.105
-    buildNumber: '105'
+    version: bento-release-4.0.0-feature_GMB-180_Subjects-Page.106
+    image: bento-release-4.0.0-feature_GMB-180_Subjects-Page.106
+    buildNumber: '106'
   auth:
     version: 2.2.0.108
     image: 2.2.0.108
