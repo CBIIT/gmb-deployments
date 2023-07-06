@@ -100,6 +100,6 @@
           - name: PUBLIC_ACCESS
             value: "None"
           - name: NODE_LEVEL_ACCESS
-            value: "False"
+            value: "false"
           - name: NODE_LABEL
             value: ""
