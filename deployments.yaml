@@ -6,9 +6,9 @@ services:
     image: develop.151
     buildNumber: '151'
   frontend:
-    version: bento-release-4.0.0-develop.114
-    image: bento-release-4.0.0-develop.114
-    buildNumber: '114'
+    version: bento-release-4.0.0-feature-GMB-166_Lowercase-Username.119
+    image: bento-release-4.0.0-feature-GMB-166_Lowercase-Username.119
+    buildNumber: '119'
   auth:
     version: 2.2.0.108
     image: 2.2.0.108
