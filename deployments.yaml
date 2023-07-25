@@ -10,9 +10,9 @@ services:
     image: bento-release-4.0.0-feature-GMB-166_Lowercase-Username.121
     buildNumber: '121'
   auth:
-    version: 2.2.0.108
-    image: 2.2.0.108
-    buildNumber: '108'
+    version: master.110
+    image: master.110
+    buildNumber: '110'
   files:
     version: 2.2.0.67
     image: 2.2.0.67
