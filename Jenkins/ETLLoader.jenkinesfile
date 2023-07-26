@@ -96,7 +96,7 @@ pipeline {
       wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
           ansiblePlaybook(
                   playbook: '${WORKSPACE}/gmb-deployments/ansible/playbooks/gmb-etl.yml',
-                  inventory: '${WORKSPACE}/gmb-deployments/ansible/hosts',
+                  inventory: '${WORKSPACE}/gmb-deployments/ansible/playbooks/hosts',
                   extraVars: [
                           rave_env: "${params.RaveEnvironment}",
                           project_name: "${params.ProjectName}",
@@ -118,7 +118,7 @@ pipeline {
      			wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
      					ansiblePlaybook(
                 			playbook: '${WORKSPACE}/gmb-deployments/ansible/playbooks/gmb-etl-transform.yml',
-                			inventory: '${WORKSPACE}/gmb-deployments/ansible/hosts',
+                			inventory: '${WORKSPACE}/gmb-deployments/ansible/playbooks/hosts',
                 			extraVars: [
                               rave_env: "${params.RaveEnvironment}",
                               project_name: "${params.ProjectName}",
