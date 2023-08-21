@@ -6,9 +6,9 @@ services:
     image: develop.153
     buildNumber: '153'
   frontend:
-    version: bento-release-4.0.0-feature_GMB-149-152-ACL-Admin_Portal.125
-    image: bento-release-4.0.0-feature_GMB-149-152-ACL-Admin_Portal.125
-    buildNumber: '125'
+    version: bento-release-4.0.0-feature_GMB-149-152-ACL-Admin_Portal.126
+    image: bento-release-4.0.0-feature_GMB-149-152-ACL-Admin_Portal.126
+    buildNumber: '126'
   auth:
     version: master.110
     image: master.110
