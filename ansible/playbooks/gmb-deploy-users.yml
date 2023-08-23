@@ -93,7 +93,7 @@
         - name: EMAIL_PASSWORD
           value: "{{email_password}}"
         - name: EMAILS_ENABLED
-          value: "true"
+          value: "false"
         - name: SEED_DATA_FILE
           value: "yaml/seed-data-gmb.yaml"
         - name: SERVER_HOST
