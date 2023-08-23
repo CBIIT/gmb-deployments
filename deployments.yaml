@@ -18,6 +18,6 @@ services:
     image: 2.2.0.67
     buildNumber: '67'
   users:
-    version: master.39
-    image: master.39
-    buildNumber: '39'
+    version: master.43
+    image: master.43
+    buildNumber: '43'
