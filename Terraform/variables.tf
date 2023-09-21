@@ -104,7 +104,7 @@ variable "ecr_repo_names" {
 }
 variable "create_ecr_repos" {
   type = bool
-  default = true
+  default = false
   description = "choose whether to create ecr repos or not"
 }
 variable "create_opensearch_cluster" {
@@ -425,4 +425,9 @@ variable "create_neo4j_db" {
   default = false
   description = "choose to add neo4j container or not"
 
+}
+
+variable "central_ecr_account_id" {
+  type = string
+  description = "central ecr account number"
 }
