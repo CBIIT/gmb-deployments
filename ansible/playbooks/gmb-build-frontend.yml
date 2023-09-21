@@ -20,6 +20,10 @@
         name: bento.common.ecr_login
       vars:
         region: us-east-1
+        project_name: "{{ lookup('env','PROJECT_NAME') }}"
+        tier: "{{ tier }}"
+        ecr_account: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.ecr_account', nested=true, region='us-east-1' ) }}"
+
 
     #frontend build
     - name: build frontend
