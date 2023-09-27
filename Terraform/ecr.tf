@@ -6,7 +6,6 @@ module "ecr" {
    ecr_repo_names = var.ecr_repo_names
    tags = var.tags
    #create_env_specific_repo = var.create_env_specific_repo
-   resource_prefix = var.stack_name
    env = terraform.workspace
    enable_ecr_replication = var.enable_ecr_replication
    replication_destination_registry_id = var.replication_destination_registry_id
