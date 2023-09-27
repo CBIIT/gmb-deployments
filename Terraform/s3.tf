@@ -29,7 +29,6 @@ module "s3-replication-source" {
 module "s3-replication-destination" {
   count = var.enable_s3_replication ? 1 : 0
   source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/s3-replication-destination?ref=v1.9"
-  resource_prefix     = "${var.stack_name}-${terraform.workspace}"
   destination_bucket_name = var.destination_bucket_name 
   tags = var.tags
   replication_role_arn = var.replication_role_arn
