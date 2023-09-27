@@ -1,5 +1,5 @@
 module "s3" {
-  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/s3"
+  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/s3?ref=v1.9"
   resource_prefix     = "${var.stack_name}-${terraform.workspace}"
   bucket_name = local.alb_log_bucket_name
   stack_name = var.stack_name
@@ -14,7 +14,8 @@ module "s3" {
 
 module "s3-replication-source" {
   count = var.create_s3_replication ? 1 : 0
-  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/s3-replication-source"
+  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/s3-replication-source?ref=v1.9"
+  resource_prefix     = "${var.stack_name}-${terraform.workspace}"
   destination_bucket_name = var.destination_bucket_name 
   env =  terraform.workspace
   source_bucket_name = var.source_bucket_name
@@ -27,7 +28,8 @@ module "s3-replication-source" {
 
 module "s3-replication-destination" {
   count = var.enable_s3_replication ? 1 : 0
-  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/s3-replication-destination"
+  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/s3-replication-destination?ref=v1.9"
+  resource_prefix     = "${var.stack_name}-${terraform.workspace}"
   destination_bucket_name = var.destination_bucket_name 
   tags = var.tags
   replication_role_arn = var.replication_role_arn
