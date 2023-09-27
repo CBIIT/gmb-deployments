@@ -409,7 +409,7 @@ variable "enable_metric_pipeline" {
   type = string
   default = null
 }*/
-variable "new_relic_account_id" {
+variable "newrelic_account_id" {
   description = "new relic account id"
   type = string
   default = null

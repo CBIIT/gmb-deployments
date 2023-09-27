@@ -25,7 +25,7 @@ module "new_relic_metric_pipeline" {
    app                       = var.project_name
    http_endpoint_access_key  = var.newrelic_api_key
    level                     = local.level
-   newrelic_account_id      = var.newrelic_account_id
+   new_relic_account_id      = var.newrelic_account_id
    permission_boundary_arn   = local.permissions_boundary
    program                   = var.program #i.e. "crdc"
    s3_bucket_arn             = aws_s3_bucket.metric.arn
