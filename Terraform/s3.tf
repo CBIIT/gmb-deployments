@@ -15,7 +15,6 @@ module "s3" {
 module "s3-replication-source" {
   count = var.create_s3_replication ? 1 : 0
   source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/s3-replication-source"
-  resource_prefix     = "${var.project}-${terraform.workspace}"
   destination_bucket_name = var.destination_bucket_name 
   env =  terraform.workspace
   source_bucket_name = var.source_bucket_name
