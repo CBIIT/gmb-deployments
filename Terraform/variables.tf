@@ -404,11 +404,11 @@ variable "enable_metric_pipeline" {
   type = bool
   default = false
 }
-variable "http_endpoint_access_key" {
+/*variable "http_endpoint_access_key" {
   description = "new relic http api key"
   type = string
   default = null
-}
+}*/
 variable "new_relic_account_id" {
   description = "new relic account id"
   type = string
@@ -436,5 +436,11 @@ variable "newrelic_api_key" {
   type = string
   description = "new relic http api key"
   default = "null"
+}
+
+variable "service" {
+  type = string
+  description = "Name of the service where the monitoring is configured. example ecs, database etc"
+  default = "ecs"
 }
 
