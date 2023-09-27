@@ -431,3 +431,10 @@ variable "central_ecr_account_id" {
   type = string
   description = "central ecr account number"
 }
+
+variable "newrelic_api_key" {
+  type = string
+  description = "new relic http api key"
+  default = "null"
+}
+

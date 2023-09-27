@@ -33,6 +33,5 @@ module "monitoring" {
   microservices        = var.microservices
   newrelic_account_id      = var.newrelic_account_id
   newrelic_api_key        = var.newrelic_api_key
-  service              = var.microservices
   program              = var.program
 }
