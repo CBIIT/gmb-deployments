@@ -46,7 +46,7 @@ pipeline {
       PROJECT      = "gmb"
 	  SERVICE      = "files"
       ECR_REPO     = "crdc-${env.PROJECT}-${env.SERVICE}"
-	  DEPLOY_JOB   = "DeployBackend"
+	  DEPLOY_JOB   = "DeployFiles"
 	  SLACK_SECRET = "gmb_slack_url"
 	  CODE_REPO    = "bento-${env.SERVICE}"
 	  JOB_PATH     = "_default/_lower/GMB/OneClickDeployment/_jobs"
