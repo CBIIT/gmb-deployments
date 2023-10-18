@@ -4,7 +4,9 @@ pipeline {
 	agent {
 		node {
 			label 'slave-ncias-q2944-c'   
-	}
+	    }
+    }    
+
 
 	parameters {
 
@@ -23,7 +25,7 @@ pipeline {
             selectedValue: 'DEFAULT',
             sortMode: 'ASCENDING_SMART',
             tagFilter: '*',
-            useRepository: '')  // Set to the repo URL that you are building
+            useRepository: 'https://github.com/CBIIT/gmb-backend')  // Set to the repo URL that you are building
 
         booleanParam(
             defaultValue: true,
