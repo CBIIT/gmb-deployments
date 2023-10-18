@@ -3,10 +3,9 @@
 pipeline {
 	agent {
 		node {
-			label 'slave-ncias-q2944-c'   
-	    }
-    }    
-
+			label 'slave-ncias-q2944-c'
+		}
+	}
 
 	parameters {
 
@@ -15,7 +14,7 @@ pipeline {
             defaultValue: 'dev',
             description: 'Choose the environment to build',
             type: 'PT_SINGLE_SELECT',
-            value: 'dev,qa,stage,prod')
+            value: 'dev')
 
         gitParameter(branchFilter: 'origin/(.*)',
             defaultValue: 'main',
@@ -25,7 +24,7 @@ pipeline {
             selectedValue: 'DEFAULT',
             sortMode: 'ASCENDING_SMART',
             tagFilter: '*',
-            useRepository: 'https://github.com/CBIIT/gmb-backend')  // Set to the repo URL that you are building
+            useRepository: 'https://github.com/CBIIT/gmb-backend')
 
         booleanParam(
             defaultValue: true,
@@ -44,19 +43,18 @@ pipeline {
 
   environment {
 
-      PROGRAM      = "crdc"
-      PROJECT      = "gmb"   
-	  SERVICE      = "backend"   
-	  ECR_REPO     = "${env.PROGRAM}-${env.PROJECT}-${env.APP}"   
-	  DEPLOY_JOB   = "DeployBackend"   
-	  SLACK_SECRET = "gmb_slack_url"   
-	  CODE_REPO    = "${env.PROJECT}-${env.SERVICE}"   
-	  JOB_PATH     = "_default/_lower/GMB/OneClickDeployment/_jobs"   
+      PROJECT      = "gmb"
+	  SERVICE      = "backend"
+      ECR_REPO     = "crdc-${env.PROJECT}-${env.SERVICE}"
+	  DEPLOY_JOB   = "DeployBackend"
+	  SLACK_SECRET = "gmb_slack_url"
+	  CODE_REPO    = "${env.PROJECT}-${env.SERVICE}"
+	  JOB_PATH     = "_default/_lower/GMB/OneClickDeployment/_jobs"
 	  REGION       = "us-east-1"
-	  ENV          = "${params.Environment}"
 	  DEPLOY_REPO  = "${env.PROJECT}-deployments"
       CODE_BRANCH  = "${params.CodeBranch}"
       CODE_FOLDER  = "${env.PROJECT}-${env.SERVICE}"
+      ENV          = "${params.Environment}"
 
   }
 
@@ -97,6 +95,7 @@ pipeline {
 
 				// set repo URL
 				env.REPO_URL = "${ECR_ACCOUNT}.dkr.ecr.${REGION}.amazonaws.com/${ECR_REPO}"
+            
 
 			}
 
@@ -162,6 +161,10 @@ pipeline {
 				docker login -u AWS -p $(aws ecr get-login-password --region $REGION) $REPO_URL
 				docker push $REPO_URL:$CODE_BRANCH.$BUILD_NUMBER
 
+                # tag as latest and push to ECR
+				docker tag $REPO_URL:$CODE_BRANCH.$BUILD_NUMBER $REPO_URL:latest
+                docker push $REPO_URL:latest
+
 				'''
 
 			}
@@ -179,7 +182,7 @@ pipeline {
                     writeDeployment(
                         version: "${env.CODE_BRANCH}.${BUILD_NUMBER}",
                         image:  "${env.CODE_BRANCH}.${BUILD_NUMBER}",
-                        service: "${env.APP}",
+                        service: "${env.SERVICE}",
                         deploymentFile: "${env.PROJECT}-deployments/deployments.yaml",
                         deploymentRepoUrl: "https://github.com/CBIIT/${env.DEPLOY_REPO}",
                         deploymentCheckoutDirectory: "${env.PROJECT}-deployments"
@@ -218,7 +221,7 @@ pipeline {
 		script {
 			if (params.RunDeployStage) {
 				echo 'Run the deployment for this sevice'
-				build job: "$JOB_PATH/$DEPLOY_JOB", parameters: [string(name: 'ImageTag', value: "$CODE_BRANCH.$BUILD_NUMBER"), extendedChoice(name: 'Environment', value: "$ENV")]
+				build job: "$JOB_PATH/$DEPLOY_JOB", parameters: [string(name: 'BackendTag', value: "$CODE_BRANCH.$BUILD_NUMBER"), extendedChoice(name: 'Environment', value: "$ENV")]
 			}
 		}
     }
