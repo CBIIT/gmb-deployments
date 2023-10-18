@@ -45,7 +45,7 @@ pipeline {
 
       PROJECT      = "gmb"
 	  SERVICE      = "users"
-      ECR_REPO     = "crdc-${env.PROJECT}-${env.SERVICE}"
+      ECR_REPO     = "crdc-${env.PROJECT}-user"
 	  DEPLOY_JOB   = "DeployUsers"
 	  SLACK_SECRET = "gmb_slack_url"
 	  CODE_REPO    = "bento-${env.SERVICE}"
