@@ -14,9 +14,9 @@ services:
     image: master.116
     buildNumber: '116'
   files:
-    version: main.71
-    image: main.71
-    buildNumber: '71'
+    version: main.72
+    image: main.72
+    buildNumber: '72'
   users:
     version: master.47
     image: master.47
