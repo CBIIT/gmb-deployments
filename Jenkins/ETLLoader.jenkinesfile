@@ -130,7 +130,7 @@ pipeline {
      		}
         }
     stage('Workspace Cleanup') {
-        steps {
+      steps {
            script {
                     // The 'cleanWs()' step cleans up the workspace
                     cleanWs()
