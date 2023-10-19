@@ -129,7 +129,7 @@ pipeline {
      			}
      		}
         }
-        cleanup {
+      stage('cleanup') {
 
         cleanWs()
 
