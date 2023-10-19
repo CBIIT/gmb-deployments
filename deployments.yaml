@@ -2,9 +2,9 @@ Notes: Jenkins pipeline
 project: gmb
 services:
   backend:
-    version: develop.153
-    image: develop.153
-    buildNumber: '153'
+    version: develop.166
+    image: develop.166
+    buildNumber: '166'
   frontend:
     version: bento-release-4.0.0-develop.129
     image: bento-release-4.0.0-develop.129
