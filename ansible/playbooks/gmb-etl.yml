@@ -7,12 +7,13 @@
   
   tasks:
     #install collections
-    - name: install aws collection
-      shell: "ansible-galaxy collection install {{ item | quote }} --force"
-      loop:
+   # - name: install aws collection
+   #   shell: "ansible-galaxy collection install {{ item | quote }} --force"
+   #   loop:
        # - community.docker:<=3.4.3
        # - amazon.aws:<=5.4.0
-       # - community.aws:<=3.2.0
+       # - community.aws:<=3.2.0 
+        
 
     - name: perform data loading
       include_role:
