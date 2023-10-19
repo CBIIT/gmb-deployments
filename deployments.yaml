@@ -6,9 +6,9 @@ services:
     image: develop.167
     buildNumber: '167'
   frontend:
-    version: bento-release-4.0.0-develop.134
-    image: bento-release-4.0.0-develop.134
-    buildNumber: '134'
+    version: bento-release-4.0.0-develop.135
+    image: bento-release-4.0.0-develop.135
+    buildNumber: '135'
   auth:
     version: master.116
     image: master.116
