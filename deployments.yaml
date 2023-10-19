@@ -14,9 +14,9 @@ services:
     image: master.115
     buildNumber: '115'
   files:
-    version: 2.2.0.67
-    image: 2.2.0.67
-    buildNumber: '67'
+    version: main.70
+    image: main.70
+    buildNumber: '70'
   users:
     version: master.43
     image: master.43
