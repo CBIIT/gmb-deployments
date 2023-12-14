@@ -10,9 +10,9 @@ services:
     image: bento-release-4.0.0-develop.135
     buildNumber: '135'
   auth:
-    version: master.119
-    image: master.119
-    buildNumber: '119'
+    version: master.120
+    image: master.120
+    buildNumber: '120'
   files:
     version: main.72
     image: main.72
