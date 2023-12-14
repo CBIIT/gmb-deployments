@@ -43,6 +43,7 @@
         project_name: "{{project_name}}"
         platform: aws
         container_name: "users"
+        program: crdc
         service_name: "{{ project_name }}-{{ tier }}-users"
         image_version: "{{users_version }}"
         tier: "{{ tier }}"
@@ -56,7 +57,7 @@
         container_port: "8083"
         container_memory: "1024"
         container_cpu: "256"
-        container_image_url: "{{ ecr_repo }}/{{ project_name }}-{{ container_name }}"
+        container_image_url: "{{ ecr_repo }}/{{program}}-{{ project_name }}-{{ container_name }}"
         #Environment
         container_env:
         - name: NEO4J_URI

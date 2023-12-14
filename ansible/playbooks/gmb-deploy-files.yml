@@ -29,6 +29,7 @@
         project_name: "{{ project_name }}"
         region: "us-east-1"
         container_name: "files"
+        program: crdc
         tier: "{{ tier }}"
         service_name: "{{ project_name }}-{{ tier }}-files"
         ## versions
@@ -58,7 +59,7 @@
         container_port: "8081"
         container_memory: "512"
         container_cpu: "256"
-        container_image_url: "{{ ecr_repo }}/{{ project_name }}-{{ container_name }}"
+        container_image_url: "{{ ecr_repo }}/{{program}}-{{ project_name }}-{{ container_name }}"
         auth_enabled: "false"
         container_env:
         - name: VERSION
