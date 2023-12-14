@@ -49,6 +49,7 @@
         project_name: "{{project_name}}"
         platform: aws
         container_name: "auth"
+        microservice: "auth"
         program: crdc
         image_version: "{{ auth_version }}"
         service_name: "{{ project_name }}-{{ tier }}-auth"
