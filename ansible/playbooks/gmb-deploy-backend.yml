@@ -77,7 +77,7 @@
           - name: AUTH_ENDPOINT
             value: "{% if tier == 'prod'  and project_name == 'bento' %}https://{{domain_name}}/api/auth{% elif tier == 'prod' %}https://{{subdomain}}.{{domain_name}}/api/auth{% else %}https://{{subdomain}}-{{tier}}.{{domain_name}}/api/auth{% endif %}"
           - name: ES_HOST
-            value: "{{ es_host }}"
+            value: "https://{{ es_host }}"
           - name: NEW_RELIC_LICENSE_KEY
             value: "{{ newrelic_license_key }}"
           - name: NEW_RELIC_APP_NAME
