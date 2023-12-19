@@ -23,7 +23,7 @@
 
 
     #deploy backend
-    - name: deploy stage for {{ project }} users 
+    - name: deploy stage for {{ project }} user 
       include_role:
         name: bento.common.ecs
       vars:
@@ -44,7 +44,7 @@
         platform: aws
         container_name: "user"
         program: crdc
-        service_name: "{{ project_name }}-{{ tier }}-users"
+        service_name: "{{ project_name }}-{{ tier }}-user"
         image_version: "{{users_version }}"
         tier: "{{ tier }}"
         ecs_cluster_name: "{{ project_name }}-{{ tier }}-ecs"
