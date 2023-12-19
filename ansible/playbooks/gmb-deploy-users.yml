@@ -1,4 +1,4 @@
-- name: deploy user microservice
+- name: deploy users microservice
   hosts: all
   connection: local
   gather_facts: yes
@@ -23,7 +23,7 @@
 
 
     #deploy backend
-    - name: deploy stage for {{ project }} user
+    - name: deploy stage for {{ project }} users
       include_role:
         name: bento.common.ecs
       vars:
@@ -42,7 +42,7 @@
         ansible_python_interpreter: /usr/bin/python3
         project_name: "{{project_name}}"
         platform: aws
-        container_name: "user"
+        container_name: "users"
         program: crdc
         service_name: "{{ project_name }}-{{ tier }}-users"
         image_version: "{{users_version }}"
