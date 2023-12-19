@@ -57,7 +57,8 @@
         container_port: "8083"
         container_memory: "1024"
         container_cpu: "256"
-        container_image_url: "{{ ecr_repo }}/{{program}}-{{ project_name }}-{{ container_name }}"
+        #container_image_url: "{{ ecr_repo }}/{{program}}-{{ project_name }}-{{ container_name }}"
+        container_image_url: "{{ ecr_repo }}/{{program}}-{{ project_name }}-user"
         #Environment
         container_env:
         - name: NEO4J_URI
