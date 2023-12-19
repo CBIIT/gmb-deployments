@@ -18,6 +18,6 @@ services:
     image: main.72
     buildNumber: '72'
   users:
-    version: master.52
-    image: master.52
-    buildNumber: '52'
+    version: master.53
+    image: master.53
+    buildNumber: '53'
