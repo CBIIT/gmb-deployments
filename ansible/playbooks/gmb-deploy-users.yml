@@ -1,4 +1,4 @@
-- name: deploy users microservice
+- name: deploy user microservice
   hosts: all
   connection: local
   gather_facts: yes
@@ -23,7 +23,7 @@
 
 
     #deploy backend
-    - name: deploy stage for {{ project }} users 
+    - name: deploy stage for {{ project }} user
       include_role:
         name: bento.common.ecs
       vars:
