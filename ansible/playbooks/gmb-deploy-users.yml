@@ -42,7 +42,7 @@
         ansible_python_interpreter: /usr/bin/python3
         project_name: "{{project_name}}"
         platform: aws
-        container_name: "users"
+        container_name: "user"
         program: crdc
         service_name: "{{ project_name }}-{{ tier }}-users"
         image_version: "{{users_version }}"
