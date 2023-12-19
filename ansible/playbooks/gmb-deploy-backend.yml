@@ -23,7 +23,7 @@
 
 
     #deploy backend
-    - name: deploy stage for backend microservice
+    - name: deploy stage for {{ project }} backend
       include_role:
         name: bento.common.ecs
       vars:

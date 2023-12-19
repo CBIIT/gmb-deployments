@@ -25,7 +25,7 @@
         react_app_ga_tracking_id: "{{ lookup('amazon.aws.aws_secret', 'cds/react.react_app_ga_tracking_id', nested=true, region='us-east-1' ) }}"
       when: project_name=='cds'
     #deploy frontend
-    - name: deploy stage for frontend microservice
+    - name: deploy stage for {{ project }} frontend
       include_role:
         name: bento.common.ecs
       vars:
