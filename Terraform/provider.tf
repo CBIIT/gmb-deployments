@@ -9,4 +9,22 @@ terraform {
 
 provider "aws" {
   region = var.region
+  default_tags {
+    tags = {
+      EnvironmentTier = terraform.workspace
+      Customer        = "nci od cbiit ods"
+      DevLead         = "Karan Sheth"
+      CreatedBy       = "Charles Ngu"
+      ResourceName    = "NCI-icdc-${terraform.workspace}"
+      FISMA           = "moderate"
+      ManagedBy       = "terraform"
+      OpsModel        = "cbiit managed hybrid"
+      Program         = "crdc"
+      PII             = "yes"
+      Backup          = local.level
+      PatchGroup      = local.level
+      ApplicationName = "PROSTATE CANCER NATURAL HISTORY"
+      ProjectManager  = "kailing chen"
+    }
+  }
 }
