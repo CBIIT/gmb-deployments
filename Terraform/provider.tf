@@ -23,7 +23,7 @@ provider "aws" {
       PII             = "yes"
       Backup          = local.level
       PatchGroup      = local.level
-      ApplicationName = "PROSTATE CANCER NATURAL HISTORY"
+      ApplicationName = "Prostate Cancer Natural History"
       ProjectManager  = "kailing chen"
     }
   }
